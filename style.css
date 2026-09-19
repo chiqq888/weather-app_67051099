@@ -1,0 +1,21 @@
+body {
+    align-items: center;
+    text-align: center;
+    font-family: "IBM Plex Sans Thai Looped", sans-serif;
+}
+
+.hidden {
+    display: none; 
+}
+
+button, input {
+    border: 1px solid black;
+    border-radius: 5px;
+    font-family: "IBM Plex Sans Thai Looped", sans-serif;
+    padding: 5px;
+}
+
+button:hover, input:hover {
+    background-color: black;
+    color: white;
+}
