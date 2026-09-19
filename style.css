@@ -8,6 +8,8 @@ body {
     display: none; 
 }
 
+
+
 button, input {
     border: 1px solid black;
     border-radius: 5px;
@@ -18,4 +20,9 @@ button, input {
 button:hover, input:hover {
     background-color: black;
     color: white;
+}
+
+#loading, #weatherResult, #error {
+    padding: 10px;
+    margin-top: 10px;
 }
