@@ -12,8 +12,9 @@ searchBtn.addEventListener('click', function() {
         return;
     } else {
         // testAPIwithInput(city);
-        fetchWeather(city);
+        // fetchWeather(city);
         // console.log(fetchWeather(city));
+        loadingWeather(city);
         return;
     }
 })
@@ -62,12 +63,18 @@ async function fetchWeather(cityInput) {
     try {
         const response = await fetch(url);
         if(!response.ok) {
-            throw new Error('เกิดข้อผิดพลาด : ${response.status')
+            if (response.status === 404) {                                                                                                             
+                throw new Error('ไม่พบชื่อเมืองที่คุณค้นหา');                                                                                                  
+            } else if (response.status === 401) {                                                                                                      
+                throw new Error('API Key ไม่ถูกต้องหรือยังไม่เปิดใช้งาน');                                                                                     
+            } else {                                                                                                                                   
+                throw new Error(`เกิดข้อผิดพลาดรหัส: ${response.status}`);                                                                                 
+            }   
         }
         const data = await response.json();
         // console.log(data)
-        displayWeather(data);
-        // return data;
+        // displayWeather(data);
+        return data;
 
     } catch (error) {
         throw error;
@@ -76,7 +83,7 @@ async function fetchWeather(cityInput) {
 
 const loading = document.getElementById('loading');
 const weatherResult = document.getElementById('weatherResult');
-const error = document.getElementById('error');
+const errorDisplay = document.getElementById('error');
 
 function displayWeather(data) {
 
@@ -112,11 +119,18 @@ function showError() {
     error.innerHTML = 'กรุณากรอกชื่อเมือง'
 }
 
-// async function loadingWeather(cityInput) {
+async function loadingWeather(cityInput) {
 
-//     try {
-//         loading.classList.remove('hidden')
-//     } catch (error) {
+    try {
+        loading.classList.remove('hidden');
+        const data = await fetchWeather(cityInput);
+        displayWeather(data);
 
-//     }
-// }
+    } catch (error) {
+        errorDisplay.classList.remove('hidden');
+        errorDisplay.innerHTML = `<b>เกิดข้อผิดพลาด : </b>${error.message}`;
+
+    } finally {
+        
+    }
+}
