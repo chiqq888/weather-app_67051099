@@ -105,7 +105,8 @@ function displayWeather(data) {
         </div> 
         `
     weatherResult.classList.remove('hidden')
-    weatherResult.innerHTML = html;
+    // weatherResult.innerHTML = html;
+    weatherResult.insertAdjacentHTML('beforeend', html);
 }
 
 
@@ -115,6 +116,7 @@ function displayWeather(data) {
 // }
 
 function showError() {
+
     weatherResult.classList.add('hidden');
     errorDisplay.classList.remove('hidden');
     errorDisplay.innerHTML = `<b>กรุณากรอกชื่อเมือง</b>`;
@@ -130,11 +132,58 @@ async function loadingWeather(cityInput) {
         loading.innerHTML = 'กำลังโหลดข้อมูล...';
 
         const data = await fetchWeather(cityInput);
+        // weatherResult.innerHTML = '';
         displayWeather(data);
 
     } catch (error) {
         errorDisplay.classList.remove('hidden');
         errorDisplay.innerHTML = `<b>เกิดข้อผิดพลาด : </b>${error.message}`;
+
+    } finally {
+        loading.classList.add('hidden');
+    }
+}
+
+const multipleBtn = document.getElementById('multiple-btn');
+const cityInput1 = document.getElementById('cityInput1')
+const cityInput2 = document.getElementById('cityInput2')
+const cityInput3 = document.getElementById('cityInput3')
+
+multipleBtn.addEventListener('click', function() {
+    
+    const city1 = cityInput1.value.trim();
+    const city2 = cityInput2.value.trim();
+    const city3 = cityInput3.value.trim();
+
+    // const cities = ['Bangkok', 'Chiang Mai', 'Phuket'];
+    const cities = [city1, city2, city3];
+    loadingMultipleWeather(cities);
+})
+
+async function loadingMultipleWeather(cities) {
+
+    try {
+        errorDisplay.classList.add('hidden');
+        weatherResult.classList.add('hidden');
+
+        loading.classList.remove('hidden');
+        loading.innerHTML = 'กำลังโหลดข้อมูลหลายเมือง...';
+
+        const requests = cities.map(function (city) {
+            return fetchWeather(city);
+        });
+
+        const results = await Promise.all(requests);
+
+        results.forEach(function (data) {
+            displayWeather(data);
+        });
+
+    } catch (error) {
+        errorDisplay.classList.remove('hidden');
+
+        errorDisplay.innerHTML =
+            `<b>เกิดข้อผิดพลาด: </b>${error.message}`;
 
     } finally {
         loading.classList.add('hidden');

@@ -4,6 +4,10 @@ body {
     font-family: "IBM Plex Sans Thai Looped", sans-serif;
 }
 
+.search-box {
+    margin-bottom: 20px;
+}
+
 .hidden {
     display: none; 
 }
@@ -55,3 +59,11 @@ button:hover, input:hover {
 .weatherCard .info {                                                                                                                           
     padding: 10px 0;                                                                                                                           
 } 
+
+#weatherResult {                                                                                                                               
+    display: flex;                                                                              
+    flex-wrap: wrap;                                                                     
+    justify-content: center;                                                                             
+    gap: 20px;                                                                  
+    padding: 20px;                                                                                                                             
+}    
