@@ -19,37 +19,37 @@ searchBtn.addEventListener('click', function() {
     }
 })
 
-// async function testAPI() {
+async function testAPI() {
 
-//     const url =
-//         `https://api.openweathermap.org/data/2.5/weather` +
-//         `?q=Bangkok` +
-//         `&appid=${apiKey}` +
-//         `&units=metric` +
-//         `&lang=th`;
+    const url =
+        `https://api.openweathermap.org/data/2.5/weather` +
+        `?q=Bangkok` +
+        `&appid=${apiKey}` +
+        `&units=metric` +
+        `&lang=th`;
 
-//     const respone = await fetch(url);
-//     const data = await respone.json();
+    const respone = await fetch(url);
+    const data = await respone.json();
 
-//     console.log(data);
-// }
+    console.log(data);
+}
 
-// // testAPI();
+// testAPI();
 
-// async function testAPIwithInput(cityInput) {
+async function testAPIwithInput(cityInput) {
 
-//     const url =
-//         `https://api.openweathermap.org/data/2.5/weather` +
-//         `?q=${encodeURIComponent(cityInput)}` +
-//         `&appid=${apiKey}` +
-//         `&units=metric` +
-//         `&lang=th`;
+    const url =
+        `https://api.openweathermap.org/data/2.5/weather` +
+        `?q=${encodeURIComponent(cityInput)}` +
+        `&appid=${apiKey}` +
+        `&units=metric` +
+        `&lang=th`;
 
-//     const response = await fetch(url);
-//     const data = await response.json();
+    const response = await fetch(url);
+    const data = await response.json();
 
-//     console.log(data);
-// }
+    console.log(data);
+}
 
 async function fetchWeather(cityInput) {
 
@@ -109,20 +109,26 @@ function displayWeather(data) {
 }
 
 
-function showLoading() {
-    loading.classList.remove('hidden');
-    loading.innerHTML = 'กำลังโหลดข้อมูล'
-}
+// function showLoading() {
+//     loading.classList.remove('hidden');
+//     loading.innerHTML = 'กำลังโหลดข้อมูล'
+// }
 
 function showError() {
-    error.classList.remove('hidden');
-    error.innerHTML = 'กรุณากรอกชื่อเมือง'
+    weatherResult.classList.add('hidden');
+    errorDisplay.classList.remove('hidden');
+    errorDisplay.innerHTML = `<b>กรุณากรอกชื่อเมือง</b>`;
 }
 
 async function loadingWeather(cityInput) {
 
     try {
+        errorDisplay.classList.add('hidden');
+        weatherResult.classList.add('hidden');
+
         loading.classList.remove('hidden');
+        loading.innerHTML = 'กำลังโหลดข้อมูล...';
+
         const data = await fetchWeather(cityInput);
         displayWeather(data);
 
@@ -131,6 +137,6 @@ async function loadingWeather(cityInput) {
         errorDisplay.innerHTML = `<b>เกิดข้อผิดพลาด : </b>${error.message}`;
 
     } finally {
-        
+        loading.classList.add('hidden');
     }
 }
