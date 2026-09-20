@@ -155,6 +155,14 @@ multipleBtn.addEventListener('click', function() {
     const city2 = cityInput2.value.trim();
     const city3 = cityInput3.value.trim();
 
+    if (city1 === '' || city2 === '' || city3 === '') {
+        weatherResult.classList.add('hidden');
+        errorDisplay.classList.remove('hidden');
+        
+        errorDisplay.innerHTML ='<b>กรุณากรอกชื่อเมืองให้ครบทั้ง 3 ช่อง</b>';
+        return;
+    }
+
     // const cities = ['Bangkok', 'Chiang Mai', 'Phuket'];
     const cities = [city1, city2, city3];
     loadingMultipleWeather(cities);
